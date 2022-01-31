@@ -44,13 +44,9 @@ class AccountController {
     if (updateData.value <= 0) throw new Error("Value must be greater than zero")
     if (updateData.value > 2000) throw new Error("Value must be less than 2000")
 
-    const newUpdateData = {
-      ...updateData,
-      value: account.balance + updateData.value
-    }
+    updateData.value = account.balance + updateData.value
 
-    console.log(newUpdateData)
-    await this.#accountRepository.update(account.accountNumber, newUpdateData)
+    await this.#accountRepository.update(account.accountNumber, updateData)
 
     const updated = await this.findByAccountNumber(account.accountNumber)
     return updated
@@ -67,12 +63,20 @@ class AccountController {
     if (updateData.value > 2000) throw new Error("Value must be less than 2000")
     if (account.balance - updateData.value < 0) throw new Error("Insufficient funds")
 
-    updateData.value = account.balance - updateData.value
+    const updateDataSender = {
+      value: account.balance - updateData.value
+    }
 
-    await this.#accountRepository.update(account.accountNumber, updateData)
+    const updateDataReceipt = {
+      value: accountReceipt.balance + updateData.value
+    }
 
+    await this.#accountRepository.update(account.accountNumber, updateDataSender)
+    await this.#accountRepository.update(accountReceipt.accountNumber, updateDataReceipt)
+
+    const receipted = await this.findByAccountNumber(accountReceipt.accountNumber)
     const updated = await this.#accountRepository.findByAccountNumber(account.accountNumber)
-    return updated
+    return { receipted, updated }
   }
 }
 
