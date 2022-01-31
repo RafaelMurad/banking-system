@@ -1,10 +1,10 @@
 const express = require("express")
 
 const { createConnection } = require("../data/connection/mongodb")
-const { UserRepository } = require("../data/repositories/UserRepository")
-const { UserController } = require("../controllers/UserController")
+const { AccountRepository } = require("../data/repositories/AccountRepository")
+const { AccountController } = require("../controllers/AccountController")
 
-const { createUser } = require("./routes")
+const { createAccount, deposit, transfer } = require("./routes")
 
 async function start() {
   const app = express()
@@ -15,12 +15,14 @@ async function start() {
     dbName: process.env.MONGODB_DBNAME
   })
 
-  const userRepository = new UserRepository(connection)
-  const userController = new UserController(userRepository)
+  const accountRepository = new AccountRepository(connection)
+  const accountController = new AccountController(accountRepository)
 
   app.use(express.json())
 
-  app.post("/users", createUser(userController))
+  app.post("/accounts", createAccount(accountController))
+  app.patch("/deposits", deposit(accountController))
+  app.patch("/transfers", transfer(accountController))
 
   app.listen(port, () => {
     console.log(`Server starter on port ${port}`)

@@ -1,16 +1,16 @@
 const Joi = require("joi")
 const UserAlreadyExistsError = require("../../../shared/errors/UserAlreadyExistsError")
 
-function createUser(controller) {
+function createAccount(controller) {
   return async (req, res) => {
     try {
-      const { name, cpf } = req.body
+      const { fullName, cpf } = req.body
       const schema = Joi.object({
-        name: Joi.string().min(3).required(),
+        fullName: Joi.string().min(3).required(),
         cpf: Joi.string().required()
       })
-      const validated = await schema.validateAsync({ name, cpf })
-      const user = await controller.create({ createdAt: new Date(), ...validated })
+      const validated = await schema.validateAsync({ fullName, cpf })
+      const user = await controller.create({ createdAt: new Date(), ...validated})
 
       res.status(201).json(user)
     } catch (err) {
@@ -22,4 +22,4 @@ function createUser(controller) {
   }
 }
 
-module.exports = createUser
+module.exports = createAccount

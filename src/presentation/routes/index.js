@@ -1,3 +1,5 @@
 module.exports = {
-    createUser: require('./user/createUser'),
+  createAccount: require("./account/createAccount"),
+  deposit: require("./account/deposit"),
+  transfer: require("./account/transfer")
 }
