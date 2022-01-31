@@ -1,5 +1,3 @@
-const { UserAlreadyExistsError } = require("../shared/errors")
-
 class AccountController {
   #accountRepository = null
 
@@ -24,7 +22,7 @@ class AccountController {
 
   async userAlreadyExists(cpf) {
     const user = await this.#accountRepository.findByCpf(cpf)
-    if (user) throw new UserAlreadyExistsError()
+    if (user) throw new Error("User already exists")
   }
 
   async findById(id) {
