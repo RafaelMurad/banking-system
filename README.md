@@ -29,11 +29,11 @@ $ docker-compose up -d
 <p> Apenas uma conta podera ser criada por CPF. Toda conta sera criada com balance 0 e um numero de conta gerado automaticamente.</p>
 
 <h3>Depositar</h3>
-<p>PATCH: <code>/http://localhost:3000/deposits</code></p>
+<p>PATCH: <code>http://localhost:3000/deposits</code></p>
 <p>Body: <code>{ "accountNumber": "1", "value": "100" }</code></p>
 <p>Informe o numero da conta que deseja depositar e o valor que deseja depositar.</p>
 
 <h3>Transferir</h3>
-<p>PATCH: <code>/http://localhost:3000/transfers</code></p>
+<p>PATCH: <code>http://localhost:3000/transfers</code></p>
 <p>Body: <code>{ "accountNumber": "1", "accountNumberReceipt": "2", "value": "100" }</code></p>
 <p>Informe o numero da conta transferindo, numero da conta que deseja transferir e o valor que deseja transferir.</p>
