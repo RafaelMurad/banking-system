@@ -1,5 +1,4 @@
 const Joi = require("joi")
-const UserAlreadyExistsError = require("../../../shared/errors/UserAlreadyExistsError")
 
 function createAccount(controller) {
   return async (req, res) => {
